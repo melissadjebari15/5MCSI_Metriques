@@ -1,1 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphique des Commits</title>
+    <!-- Inclure la bibliothèque Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div style="width:75%;">
+        <!-- Élément canvas pour le graphique -->
+        <canvas id="commitChart"></canvas>
+    </div>
+
+    <script>
+        // Récupérer les données des commits depuis le serveur
+        fetch('https://api.github.com/repos/melissadjebari15/5MCSI_Metriques/commits')
+            .then(response => response.json())
+            .then(data => {
+                // Initialiser un objet pour stocker le nombre de commits par minute
+                let commitsPerMinute = {};
+
+                // Parcourir les données des commits pour compter le nombre de commits par minute
+                data.forEach(commit => {
+                    let commitDate = new Date(commit.commit.author.date);
+                    let minute = commitDate.getMinutes();
+
+                    if (minute in commitsPerMinute) {
+                        commitsPerMinute[minute]++;
+                    } else {
+                        commitsPerMinute[minute] = 1;
+                    }
+                });
+
+                // Extraire les minutes et le nombre de commits en tant que labels et données pour le graphique
+                let minutes = Object.keys(commitsPerMinute);
+                let commitCounts = Object.values(commitsPerMinute);
+
+                // Créer le graphique
+                let ctx = document.getElementById('commitChart').getContext('2d');
+                let chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: minutes,
+                        datasets: [{
+                            label: 'Nombre de Commits par Minute',
+                            data: commitCounts,
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Erreur lors de la récupération des données des commits:', error));
+    </script>
+</body>
+</html>
 
