@@ -17,7 +17,10 @@ def MaPremiereAPI():
 @app.route("/graphique/")
 def MonPremierHistogramme():
     return render_template('graphique.html')
- 
+
+@app.route("/histogramme/")
+def MonPremierHistogramme():
+    return render_template('histogramme.html')
 @app.route('/paris/')
 def meteo():
     response = urlopen('https://api.openweathermap.org/data/2.5/forecast/daily?q=Paris,fr&cnt=16&appid=bd5e378503939ddaee76f12ad7a97608')
