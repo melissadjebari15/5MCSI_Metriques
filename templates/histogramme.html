@@ -26,11 +26,13 @@
       var date = new Date(entry.Jour * 1000);
       dataTable.addRow([date.toLocaleDateString(), entry.temp]);
     });
-    // Configurer les options du graphique en ligne
+    // Configurer les options du graphique en colonne !
     var options = {
       title: 'Évolution des températures de Paris pour les 16 prochains jours',
-      curveType: 'function',
-      legend: { position: 'bottom' }
+      legend: { position: 'bottom' },
+       hAxis: {title: 'Date'},
+       vAxis: {title: 'Température de paris'}
+          };
     };
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
     chart.draw(dataTable, options);
