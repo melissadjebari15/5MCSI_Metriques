@@ -6,6 +6,9 @@ from urllib.request import urlopen
 import sqlite3
                                                                                                                                        
 app = Flask(__name__)  
+@app.route('/')
+def hello_world():
+    return render_template('hello.html') #commentaire11
 
 @app.route("/contact/")
 def MaPremiereAPI():
@@ -14,7 +17,8 @@ def MaPremiereAPI():
 @app.route("/histogramme/")
 def MonPremierHistogramme():
     return render_template('histogramme.html')
-  @app.route('/paris/')
+ 
+@app.route('/paris/')
 def meteo():
     response = urlopen('https://api.openweathermap.org/data/2.5/forecast/daily?q=Paris,fr&cnt=16&appid=bd5e378503939ddaee76f12ad7a97608')
     raw_content = response.read()
@@ -25,10 +29,12 @@ def meteo():
         temp_day_value = list_element.get('temp', {}).get('day') - 273.15 # Conversion de Kelvin en °c 
         results.append({'Jour': dt_value, 'temp': temp_day_value})
     return jsonify(results=results)
+
+@app.route("/rapport/")
+def monPremiergraphique():
+  return render_template("graphique.html")
                                                                                                                                        
-@app.route('/')
-def hello_world():
-    return render_template('hello.html') #commentaire11
+
 
   
 if __name__ == "__main__":
