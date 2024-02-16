@@ -14,9 +14,7 @@ def hello_world():
 def MaPremiereAPI():
     return render_template('contact.html')
 
-@app.route("/graphique/")
-def MonPremierHistogramme():
-    return render_template('graphique.html')
+
 
 @app.route("/histogramme/")
 def MonPremierHistogramme():
